@@ -209,6 +209,7 @@ After creating the repo, the script will set `origin` remote and push the `main`
 Warning: Please verify `.gitignore` excludes `.env` and other secret files before pushing to a remote repository.
 
 For detailed step-by-step instructions (including how to generate a PAT, install `gh` and `git`, and set the `GITHUB_TOKEN` environment variable), see `docs/github-account-setup.md`.
+For a complete development roadmap, security checklist, and step-by-step instructions for building the project from skeleton to production, see `docs/development-roadmap.md`.
 
 ## فایل‌ها
 
