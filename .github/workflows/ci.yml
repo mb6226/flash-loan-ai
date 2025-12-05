@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        python-version: [3.11]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Node dependencies
+        run: |
+          npm ci
+
+      - name: Compile Contracts
+        env:
+          INFURA_KEY: ${{ secrets.INFURA_KEY }}
+        run: |
+          npx hardhat compile
+
+      - name: Run JS Hardhat tests
+        env:
+          INFURA_KEY: ${{ secrets.INFURA_KEY }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          npm run test:mvp
+
+      - name: Create Python venv
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          # install a lighter set to avoid heavy ML dependencies
+          python -m pip install -r requirements-lite.txt
+
+      - name: Run Python Tests
+        run: |
+          . .venv/bin/activate
+          pytest -q

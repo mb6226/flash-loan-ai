@@ -1,0 +1,41 @@
+{
+  "name": "flash-loan-ai",
+  "version": "1.0.0",
+  "description": "AI-powered flash loan arbitrage bot (skeleton)",
+  "main": "src/index.js",
+  "scripts": {
+    "start:inference": "node src/ai/inference.js",
+    "start:listeners": "node src/blockchain/listeners.js",
+    "start:mempool": "node src/blockchain/mempool_monitor.js",
+    "start:mvp": "node src/startup-scripts/run_mvp.js",
+    "start:full": "node src/startup-scripts/run_full_system.js",
+    "start:all": "concurrently \"npm run start:inference\" \"npm run start:listeners\" \"npm run start:mempool\"",
+    "node": "npx hardhat node",
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "test:mvp": "npx hardhat test tests/test_arbitrage.js",
+    "deploy:testnet": "npx hardhat run deployments/deploy_testnet.js --network goerli",
+    "deploy:mainnet": "npx hardhat run deployments/deploy_mainnet.js --network mainnet",
+    "lint": "eslint . --ext .js,.ts",
+    "format": "prettier --write ."
+  },
+  "keywords": ["defi", "flashloan", "arbitrage", "ai", "bot"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.3",
+    "dotenv": "^16.3.1",
+    "ethers": "^5.7.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.2",
+    "hardhat": "^2.17.2",
+    "concurrently": "^8.0.0",
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0"
+  }
+}

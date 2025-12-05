@@ -1,0 +1,24 @@
+system:
+  min_profit_eth: 0.05
+  max_loan_eth: 10
+  gas_price_limit: 50
+  monitoring_interval: 1000 # ms
+
+dexes:
+  - name: "uniswap"
+    router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+  - name: "sushiswap"
+    router: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F"
+
+ai:
+  model_path: "./data/models/lstm_model.h5"
+  confidence_threshold: 0.7
+  risk_max_score: 30
+
+networks:
+  mainnet:
+    rpc: "https://mainnet.infura.io/v3/${INFURA_KEY}"
+    aave_pool: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2"
+  goerli:
+    rpc: "https://goerli.infura.io/v3/${INFURA_KEY}"
+    aave_pool: "0x4e033931ad43597d96FDB44758dC4cA4f1e6C39E"
