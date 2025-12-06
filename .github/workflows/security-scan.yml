@@ -33,8 +33,8 @@ jobs:
           # abort build if detect-secrets finds new secrets not in baseline
           detect-secrets-hook --baseline .secrets.baseline
 
-      - name: Optional: Run TruffleHog scan for extra coverage
+      - name: "Optional: Run TruffleHog scan for extra coverage"
         run: |
-          # run trufflehog scan; fail CI if secrets are present
+          # run trufflehog scan; write JSON output to file; don't fail the step by default
           trufflehog filesystem --directory . --json > trufflehog-results.json || true
           # If you need to block PRs on trufflehog finds, adjust the exit code processing
