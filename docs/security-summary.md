@@ -1,4 +1,7 @@
-﻿# Security & Secret Scan Summary
+﻿Added `detect-secrets` baseline and `pre-commit` hooks to block new secrets being committed; baseline was generated and normalized to UTF-8 without BOM to ensure CI hooks read it correctly.
+
+Note: Pre-commit hooks are installed and validated locally; CI workflow `security-scan.yml` runs detect-secrets and a TruffleHog scan on PRs and pushes.
+# Security & Secret Scan Summary
 
 Date: 2025-12-06
 
@@ -93,7 +96,8 @@ pre-commit install
 If you'd like me to: [pick one]
 - A: Parse `trufflehog-results.json` and produce a per-file CSV summary and recommended remediation (I can show exact flags and commits for any true secret).
 - B: Prepare and run a `git-filter-repo` cleanup removing `.venv` and vendor paths (I will prepare force-push instructions & warnings for collaborators).
-- C: Add `detect-secrets` baseline & pre-commit hook, and add a CI job (GitHub Actions) that runs truffleHog/gitleaks on PRs.
+- C: Add `detect-secrets` baseline & pre-commit hook, and add a CI job (GitHub Actions) that runs truffleHog/gitleaks on PRs. 
+  - Note: Pre-commit hooks are installed and validated locally; CI workflow `security-scan.yml` runs detect-secrets and a TruffleHog scan on PRs and pushes.
 
 If yes, tell me which option and I will proceed (and I’ll update the checklist & commit steps as I go).
 
