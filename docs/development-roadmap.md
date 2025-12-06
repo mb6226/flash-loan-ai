@@ -12,10 +12,14 @@
 هدف: اطمینان از اینکه هیچ کلید محرمانه‌ای در مخزن وجود ندارد، محیط توسعه امن است و پیش‌نیازهای نرم‌افزاری نصب شده‌اند.
 
 ### 🔐 چک‌لیست امنیتی (اجباری قبل از شروع توسعه)
-- [ ] اسکن کامل مخزن با ابزارهایی مثل `truffleHog`, `detect-secrets`, یا GitGuardian
+- [x] اسکن کامل مخزن با ابزارهایی مثل `truffleHog`, `detect-secrets`, یا GitGuardian — انجام شد
 - [ ] بررسی سابقه commit برای نشتی کلید یا فایل‌های `.env` یا هر فایل موقت حاوی secret
 - [ ] اطمینان از اینکه `.gitignore` شامل `.env`, `.venv`, `node_modules`, `artifacts`, `build`, و فایل‌های حساس است
 - [ ] اگر قبل از این secret یا private key منتشر شده‌اند، فوراً آن‌ها را revoke و rotate کنید
+	- NOTE: truffleHog output revealed high-entropy artifacts (certificate/signature blocks and vendored packages) in git history and files from `.venv`.
+		- HEAD does not contain any real private keys or active secrets; `PRIVATE_KEY` remains a placeholder in `.env.example` and references in code are environment variables.
+		- To scrub historical `.venv` or vendor files from the git history (recommended if you want a clean public repository), use `git-filter-repo` or BFG: `git filter-repo --invert-paths --paths .venv` (requires force-push).
+		- If you suspect that any secrets were committed in the past, revoke and rotate them, and then use `git-filter-repo`/BFG and force-push to rewrite history.
 - [ ] استفاده از یک کیف پول اختصاصی برای توسعه (فقط Testnet)
 - [ ] فعال‌سازی احراز هویت 2FA روی حساب GitHub
 
