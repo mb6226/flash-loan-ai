@@ -27,20 +27,20 @@ class SimpleBot {
     `);
 
     this.isRunning = true;
-    
+
     // مانیتورینگ هر 5 ثانیه
     setInterval(async () => {
       if (!this.isRunning) return;
-      
+
       try {
         const opportunity = await this.listener.findArbitrageOpportunity();
-        
+
         if (opportunity) {
           logger.info("🎯 Opportunity detected", opportunity);
-          
+
           // تصمیم‌گیری ساده (بدون AI)
           const shouldExecute = this.simpleDecision(opportunity);
-          
+
           if (shouldExecute) {
             logger.info("⚡ Executing based on rules");
             await this.listener.executeFlashLoan(opportunity);

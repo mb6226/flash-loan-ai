@@ -21,7 +21,7 @@ npm install
 ```
 
 - For development, place env variables in `.env` from `.env.example`.
-  
+
 ## Requirements
 - Node.js (LTS recommended, v18+ required for Hardhat)
 - Python 3.11 (recommended for compatibility with TensorFlow, scikit-learn, and scikit dependencies)

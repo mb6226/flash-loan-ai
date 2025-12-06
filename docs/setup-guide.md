@@ -20,4 +20,3 @@ npm test
 ```
 
 5. برای کار با قراردادها: نصب Hardhat/Foundry/Truffle (بسته به pipeline). این repo از کنترلرهای Node برای deploy استفاده می‌کند.
-

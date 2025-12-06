@@ -20,21 +20,21 @@ async function startMVP() {
   🕐 Interval: 5 seconds
   ======================================
   `);
-  
+
   try {
     const listener = new BlockchainListener();
-    
+
     // شروع مانیتورینگ
     listener.startPriceMonitoring();
-    
+
     // مانیتور Mempool (اختیاری برای MVP)
     // listener.monitorMempool();
-    
+
     // لاگ دوره‌ای
     setInterval(() => {
       logger.logSystemStatus();
     }, 60000); // هر 1 دقیقه
-    
+
   } catch (error) {
     console.error("❌ Fatal error:", error);
     process.exit(1);

@@ -21,10 +21,10 @@ class Logger {
       message,
       data
     };
-    
+
     // لاگ به کنسول
     console.log(`[${timestamp}] ${level.toUpperCase()}: ${message}`, data);
-    
+
     // لاگ به فایل
     const logFile = path.join(this.logsDir, `${new Date().toISOString().split('T')[0]}.jsonl`);
     fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');

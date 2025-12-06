@@ -113,7 +113,7 @@ if [ -f "$ROOT_DIR/src/blockchain/mempool_monitor.js" ]; then
 fi
 
 echo "Components started. Monitor logs with: tail -f $LOG_DIR/*.log"
-echo "Press Ctrl+C to stop and cleanup." 
+echo "Press Ctrl+C to stop and cleanup."
 
 # Wait for background processes (until killed)
 while true; do

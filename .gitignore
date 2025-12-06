@@ -17,3 +17,4 @@ data/
 
 # Build
 build/
+trufflehog-results.json

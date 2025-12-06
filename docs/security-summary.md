@@ -91,7 +91,7 @@ pre-commit install
 ---
 
 If you'd like me to: [pick one]
-- A: Parse `trufflehog-results.json` and produce a per-file CSV summary and recommended remediation (I can show exact flags and commits for any true secret). 
+- A: Parse `trufflehog-results.json` and produce a per-file CSV summary and recommended remediation (I can show exact flags and commits for any true secret).
 - B: Prepare and run a `git-filter-repo` cleanup removing `.venv` and vendor paths (I will prepare force-push instructions & warnings for collaborators).
 - C: Add `detect-secrets` baseline & pre-commit hook, and add a CI job (GitHub Actions) that runs truffleHog/gitleaks on PRs.
 

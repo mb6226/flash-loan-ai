@@ -12,7 +12,7 @@ if [ ${#missing[@]} -gt 0 ]; then
   echo "Missing global tools: ${missing[*]}"
   echo "Please install them before running the MVP."
 else
-  echo "All global tools found: node, npm, python" 
+  echo "All global tools found: node, npm, python"
 fi
 
 if [ -f .env ]; then

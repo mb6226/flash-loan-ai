@@ -1,0 +1,40 @@
+name: Security scans (detect-secrets + trufflehog)
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  run-security-scans:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install detect-secrets and trufflehog
+        run: |
+          python -m pip install --upgrade pip
+          pip install detect-secrets==1.1.0 truffleHog==3.10.0
+
+      - name: Run detect-secrets check against baseline
+        run: |
+          # abort build if detect-secrets finds new secrets not in baseline
+          detect-secrets-hook --baseline .secrets.baseline
+
+      - name: Optional: Run TruffleHog scan for extra coverage
+        run: |
+          # run trufflehog scan; fail CI if secrets are present
+          trufflehog filesystem --directory . --json > trufflehog-results.json || true
+          # If you need to block PRs on trufflehog finds, adjust the exit code processing

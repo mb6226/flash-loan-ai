@@ -14,4 +14,3 @@ class ContractInterface:
 
     def build_tx(self, fn_name, tx_params, *args):
         return getattr(self.contract.functions, fn_name)(*args).buildTransaction(tx_params)
-

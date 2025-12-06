@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
-    
+
     struct ArbitrageParams {
         address[] path;
         address[] reversalPath;
@@ -36,10 +36,10 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
         ArbitrageParams calldata params
     ) external onlyOwner nonReentrant {
         require(params.path.length >= 2, "Invalid path");
-        
+
         // ذخیره پارامترها در کال‌دیتا
         bytes memory data = abi.encode(params);
-        
+
         // درخواست فلش لون از Aave
         POOL.flashLoanSimple(
             address(this),
@@ -64,33 +64,33 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
         require(initiator == address(this), "Invalid initiator");
 
         ArbitrageParams memory arbParams = abi.decode(params, (ArbitrageParams));
-        
+
         // محاسبه مبلغ بدهی کل
         uint256 totalDebt = amount + premium;
-        
+
         // اجرای مسیر آربیتراژ
         uint256 finalBalance = _executeArbitrage(
             asset,
             amount,
             arbParams
         );
-        
+
         // بررسی سود
         require(finalBalance > totalDebt, "No profit generated");
-        
+
         // محاسبه سود خالص
         uint256 profit = finalBalance - totalDebt;
-        
+
         // بازپرداخت وام
         IERC20(asset).approve(address(POOL), totalDebt);
-        
+
         // ثبت آمار
         totalProfit += profit;
         successCount++;
-        
+
         // انتقال سود به owner
         IERC20(asset).transfer(owner, profit);
-        
+
         emit ArbitrageSuccess(
             asset,
             amount,
@@ -98,7 +98,7 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
             premium,
             block.timestamp
         );
-        
+
         return true;
     }
 
@@ -112,26 +112,26 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
     ) internal returns (uint256) {
         // مرحله 1: سواپ در DEX اول (مثلاً Uniswap)
         IERC20(asset).approve(params.path[0], amount);
-        
+
         // اجرای سواپ
         uint256 intermediateAmount = _swapOnDEX(
             params.path[0], // آدرس DEX
             amount,
             params.path
         );
-        
+
         // مرحله 2: سواپ معکوس در DEX دوم (مثلاً Sushiswap)
         IERC20(params.path[params.path.length - 1]).approve(
             params.reversalPath[0],
             intermediateAmount
         );
-        
+
         uint256 finalAmount = _swapOnDEX(
             params.reversalPath[0],
             intermediateAmount,
             params.reversalPath
         );
-        
+
         return finalAmount;
     }
 
@@ -154,9 +154,9 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
                 block.timestamp + 300 // deadline 5 دقیقه
             )
         );
-        
+
         require(success, "Swap failed");
-        
+
         // استخراج مقدار خروجی از داده برگشتی
         uint256[] memory amounts = abi.decode(data, (uint256[]));
         return amounts[amounts.length - 1];
@@ -168,7 +168,7 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
     function emergencyWithdraw(address token) external onlyOwner {
         uint256 balance = IERC20(token).balanceOf(address(this));
         IERC20(token).transfer(owner, balance);
-        
+
         emit EmergencyWithdraw(token, balance, block.timestamp);
     }
 
@@ -180,7 +180,7 @@ contract FlashLoanAI is FlashLoanReceiverBase, ReentrancyGuard {
         uint256 premium,
         uint256 timestamp
     );
-    
+
     event EmergencyWithdraw(
         address indexed token,
         uint256 amount,
